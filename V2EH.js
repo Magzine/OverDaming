@@ -17,7 +17,7 @@ const specialList = {
 const eventType = {
   1: {
     name: "EventListner",
-    handler: function (state, ...args) {
+    handler: function (state, myEventID, myEventSlot, ...args) {
       if (state === 5) return;
       if (state === -1) return;
       else if (state === 0) return;
@@ -30,12 +30,27 @@ const eventType = {
   3: { name: "EventTimer" },
   4: {
     name: "EventGroup",
-    handler: function (state, ...args) {
+    handler: function (state, myEventID, myEventSlot, ...args) {
       if (state === 0) {
-        this.eventRID = {
-          $__Metadata__: [],
-          __self__: this.eventSlot,
+        let b = [...args];
+        b.pop();
+        getByPath(eventID, b)[args[args.length - 1]] = {
+          $__Metadata__: ["__self__"],
+          __self__: myEventID,
         };
+      }
+      if (state === 1) {
+        const C = [...args];
+        const K = getByPath(eventID, C.toSpliced(C.length - 2, 1))[args[args.length - 1]];
+        for (const i in K) {
+          if (!(i == "$__Metadata__" || i == K.$__Metadata__[0])) {
+            console.log(i);
+            console.log(C);
+            C.push(i);
+            Trigger(1, C);
+            C.pop();
+          }
+        }
       }
     },
     RE_fn: RE_Default,
@@ -54,20 +69,9 @@ function RE_Default(EventSlot, ...args) {
   else if (TR instanceof Object) return (TR[args[args.length - 1]] = [EventSlot]);
 }
 
-function deleteFromObject(keyPart, obj) {
-  for (var k in obj) {
-    if (keyPart != null ? keyPart[0] === "*" : false) {
-      if (keyPart.length > 1)
-        if (~k.indexOf(keyPart.substring(1)) === 0) {
-          delete obj[k];
-        } else if (~k.indexOf(keyPart)) delete obj[k];
-    } else if (~k.indexOf(keyPart)) delete obj[k];
-  }
-}
-
 function getByPath(arr, path) {
   if (path == null) return null;
-  if (path.length === 0) {
+  if (path.length === 0 || path[0] == null) {
     return arr;
   }
   return getByPath(arr[path[0]], path.slice(1));
@@ -138,30 +142,42 @@ function RemoveEventSlot(Slot) {
 }
 
 function RemoveEventID(...EventID) {
-  const key = EventID.pop();
-  deleteFromObject(key, getByPath(eventID, EventID));
+  const obj = getByPath(eventID, EventID.toSpliced(EventID.length - 1, 1));
+  delete obj[EventID[EventID.length - 1]];
 }
-
 function Trigger(state, ...args) {
+  if (args.length == 1 && args[0] instanceof Array) args = args[0];
   const LocalEventID = [...args][args.length - 1];
-  let tmp = args;
+  const tmp = [...args];
   tmp.pop();
-  tmp = getByPath(eventID, tmp)[LocalEventID];
-  if (tmp == null) return null;
-  let test = [];
-  if (tmp instanceof Array) {
+  const atmp = getByPath(eventID, tmp)[LocalEventID];
+  if (tmp == null) return undefined;
+  const test = [];
+  if (atmp instanceof Array) {
     let hand = null;
-    for (const i of tmp) {
+    for (const i of atmp) {
       hand = eventData[i];
       hand.data.Event.state = state;
       test[i] = hand.data.Event.handler.call(
-        {
-          fn: hand.data.Event.fn,
-          eventRID: hand.data.Event.eventRID,
-          slot: hand.data.Event.eventSlot,
-          state: hand.data.Event.state,
-        },
+        { fn: hand.data.Event.fn },
         hand.data.Event.state,
+        atmp,
+        eventData[i],
+        ...args,
+      );
+    }
+  } else if (atmp instanceof Object) {
+    let hand = null;
+    if (atmp.$__Metadata__ == null) return undefined;
+    const K = atmp.$__Metadata__[0];
+    for (const i of atmp[K]) {
+      hand = eventData[i];
+      hand.data.Event.state = state;
+      test[i] = hand.data.Event.handler.call(
+        { fn: hand.data.Event.fn },
+        hand.data.Event.state,
+        atmp,
+        eventData[i],
         ...args,
       );
     }
