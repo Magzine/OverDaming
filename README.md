@@ -72,7 +72,7 @@ Desc:
 ## License
 See LICENSE file. TL;DR: Credit me, use at your own risk, no responsibility for forks.
 
-### benckmarks slop:
+### benckmarks slop(v0.0.93):
 
 ❯ deno test ./public/iPlugins/V2EH_test.js
 running 11 tests from ./public/iPlugins/V2EH_test.js
