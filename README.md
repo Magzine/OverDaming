@@ -264,4 +264,443 @@ file:///home/ash/Documents/project/web/cols/public/iPlugins/V2EH_test.js
 | Triggering Event   |        110.6 ns |     9,043,000 | (101.3 ns … 424.4 ns) | 113.4 ns | 138.7 ns | 143.1 ns |
 | Deleting Event     |        546.0 ns |     1,832,000 | (255.0 ns …  61.0 ms) | 349.0 ns | 569.0 ns | 686.0 ns |
 
+
+## Benchmarks Slop(v0.00.84.9):
+
+❯ deno test ./public/iPlugins/V2EH_test.js
+running 14 tests from ./public/iPlugins/V2EH_test.js
+Event Creation ... ok (1ms)
+Triggering ... ok (161µs)
+Removing EventID ... ok (280µs)
+Removing EventSlot ... ok (125µs)
+Creating 100000 Event ... ok (141ms)
+Trigger 100000 Event ... ok (50ms)
+Deleting 100000 Event ... ok (20ms)
+Single Multi Event ...
+------- output -------
+AD
+B1
+C9
+----- output end -----
+Single Multi Event ... ok (903µs)
+Creating EventGroup ... ok (696µs)
+Adding Event to CB_test ... ok (429µs)
+Triggering CD in CB_test ...
+------- output -------
+HELLO!AAA
+----- output end -----
+Triggering CD in CB_test ... ok (101µs)
+Triggering CB_test ...
+------- output -------
+HELLO!AAA
+HELLO!
+----- output end -----
+Triggering CB_test ... ok (132µs)
+Grouping CD to CB_test ... ok (175µs)
+Triggering CB_test Group ...
+------- output -------
+HELLO!AAA
+HELLO!
+111111
+----- output end -----
+Triggering CB_test Group ... ok (121µs)
+
+ok | 14 passed | 0 failed (224ms)
+
+❯ deno test ./public/iPlugins/V2EH_test.js
+running 14 tests from ./public/iPlugins/V2EH_test.js
+Event Creation ... ok (1ms)
+Triggering ... ok (120µs)
+Removing EventID ... ok (206µs)
+Removing EventSlot ... ok (115µs)
+Creating 100000 Event ... ok (138ms)
+Trigger 100000 Event ... ok (48ms)
+Deleting 100000 Event ... ok (22ms)
+Single Multi Event ...
+------- output -------
+AD
+B1
+C9
+----- output end -----
+Single Multi Event ... ok (871µs)
+Creating EventGroup ... ok (474µs)
+Adding Event to CB_test ... ok (286µs)
+Triggering CD in CB_test ...
+------- output -------
+HELLO!AAA
+----- output end -----
+Triggering CD in CB_test ... ok (88µs)
+Triggering CB_test ...
+------- output -------
+HELLO!AAA
+HELLO!
+----- output end -----
+Triggering CB_test ... ok (142µs)
+Grouping CD to CB_test ... ok (158µs)
+Triggering CB_test Group ...
+------- output -------
+HELLO!AAA
+HELLO!
+111111
+----- output end -----
+Triggering CB_test Group ... ok (134µs)
+
+ok | 14 passed | 0 failed (222ms)
+
+❯ deno test ./public/iPlugins/V2EH_test.js
+running 14 tests from ./public/iPlugins/V2EH_test.js
+Event Creation ... ok (1ms)
+Triggering ... ok (105µs)
+Removing EventID ... ok (214µs)
+Removing EventSlot ... ok (151µs)
+Creating 100000 Event ... ok (141ms)
+Trigger 100000 Event ... ok (49ms)
+Deleting 100000 Event ... ok (20ms)
+Single Multi Event ...
+------- output -------
+AD
+B1
+C9
+----- output end -----
+Single Multi Event ... ok (1ms)
+Creating EventGroup ... ok (503µs)
+Adding Event to CB_test ... ok (274µs)
+Triggering CD in CB_test ...
+------- output -------
+HELLO!AAA
+----- output end -----
+Triggering CD in CB_test ... ok (108µs)
+Triggering CB_test ...
+------- output -------
+HELLO!AAA
+HELLO!
+----- output end -----
+Triggering CB_test ... ok (131µs)
+Grouping CD to CB_test ... ok (186µs)
+Triggering CB_test Group ...
+------- output -------
+HELLO!AAA
+HELLO!
+111111
+----- output end -----
+Triggering CB_test Group ... ok (154µs)
+
+ok | 14 passed | 0 failed (224ms)
+
+❯ deno test ./public/iPlugins/V2EH_test.js
+running 14 tests from ./public/iPlugins/V2EH_test.js
+Event Creation ... ok (1ms)
+Triggering ... ok (111µs)
+Removing EventID ... ok (223µs)
+Removing EventSlot ... ok (120µs)
+Creating 100000 Event ... ok (142ms)
+Trigger 100000 Event ... ok (49ms)
+Deleting 100000 Event ... ok (21ms)
+Single Multi Event ...
+------- output -------
+AD
+B1
+C9
+----- output end -----
+Single Multi Event ... ok (806µs)
+Creating EventGroup ... ok (394µs)
+Adding Event to CB_test ... ok (318µs)
+Triggering CD in CB_test ...
+------- output -------
+HELLO!AAA
+----- output end -----
+Triggering CD in CB_test ... ok (136µs)
+Triggering CB_test ...
+------- output -------
+HELLO!AAA
+HELLO!
+----- output end -----
+Triggering CB_test ... ok (249µs)
+Grouping CD to CB_test ... ok (151µs)
+Triggering CB_test Group ...
+------- output -------
+HELLO!AAA
+HELLO!
+111111
+----- output end -----
+Triggering CB_test Group ... ok (172µs)
+
+ok | 14 passed | 0 failed (224ms)
+
+❯ deno test ./public/iPlugins/V2EH_test.js
+running 14 tests from ./public/iPlugins/V2EH_test.js
+Event Creation ... ok (1ms)
+Triggering ... ok (91µs)
+Removing EventID ... ok (213µs)
+Removing EventSlot ... ok (104µs)
+Creating 100000 Event ... ok (142ms)
+Trigger 100000 Event ... ok (50ms)
+Deleting 100000 Event ... ok (21ms)
+Single Multi Event ...
+------- output -------
+AD
+B1
+C9
+----- output end -----
+Single Multi Event ... ok (846µs)
+Creating EventGroup ... ok (453µs)
+Adding Event to CB_test ... ok (233µs)
+Triggering CD in CB_test ...
+------- output -------
+HELLO!AAA
+----- output end -----
+Triggering CD in CB_test ... ok (117µs)
+Triggering CB_test ...
+------- output -------
+HELLO!AAA
+HELLO!
+----- output end -----
+Triggering CB_test ... ok (126µs)
+Grouping CD to CB_test ... ok (148µs)
+Triggering CB_test Group ...
+------- output -------
+HELLO!AAA
+HELLO!
+111111
+----- output end -----
+Triggering CB_test Group ... ok (120µs)
+
+ok | 14 passed | 0 failed (225ms)
+
+❯ deno test ./public/iPlugins/V2EH_test.js
+running 14 tests from ./public/iPlugins/V2EH_test.js
+Event Creation ... ok (1ms)
+Triggering ... ok (85µs)
+Removing EventID ... ok (181µs)
+Removing EventSlot ... ok (94µs)
+Creating 100000 Event ... ok (144ms)
+Trigger 100000 Event ... ok (67ms)
+Deleting 100000 Event ... ok (26ms)
+Single Multi Event ...
+------- output -------
+AD
+B1
+C9
+----- output end -----
+Single Multi Event ... ok (1ms)
+Creating EventGroup ... ok (419µs)
+Adding Event to CB_test ... ok (216µs)
+Triggering CD in CB_test ...
+------- output -------
+HELLO!AAA
+----- output end -----
+Triggering CD in CB_test ... ok (88µs)
+Triggering CB_test ...
+------- output -------
+HELLO!AAA
+HELLO!
+----- output end -----
+Triggering CB_test ... ok (187µs)
+Grouping CD to CB_test ... ok (162µs)
+Triggering CB_test Group ...
+------- output -------
+HELLO!AAA
+HELLO!
+111111
+----- output end -----
+Triggering CB_test Group ... ok (151µs)
+
+ok | 14 passed | 0 failed (250ms)
+
+❯ deno test ./public/iPlugins/V2EH_test.js
+running 14 tests from ./public/iPlugins/V2EH_test.js
+Event Creation ... ok (1ms)
+Triggering ... ok (105µs)
+Removing EventID ... ok (217µs)
+Removing EventSlot ... ok (109µs)
+Creating 100000 Event ... ok (141ms)
+Trigger 100000 Event ... ok (48ms)
+Deleting 100000 Event ... ok (20ms)
+Single Multi Event ...
+------- output -------
+AD
+B1
+C9
+----- output end -----
+Single Multi Event ... ok (793µs)
+Creating EventGroup ... ok (387µs)
+Adding Event to CB_test ... ok (345µs)
+Triggering CD in CB_test ...
+------- output -------
+HELLO!AAA
+----- output end -----
+Triggering CD in CB_test ... ok (81µs)
+Triggering CB_test ...
+------- output -------
+HELLO!AAA
+HELLO!
+----- output end -----
+Triggering CB_test ... ok (114µs)
+Grouping CD to CB_test ... ok (170µs)
+Triggering CB_test Group ...
+------- output -------
+HELLO!AAA
+HELLO!
+111111
+----- output end -----
+Triggering CB_test Group ... ok (122µs)
+
+ok | 14 passed | 0 failed (222ms)
+
+❯ deno test ./public/iPlugins/V2EH_test.js
+running 14 tests from ./public/iPlugins/V2EH_test.js
+Event Creation ... ok (1ms)
+Triggering ... ok (98µs)
+Removing EventID ... ok (225µs)
+Removing EventSlot ... ok (104µs)
+Creating 100000 Event ... ok (138ms)
+Trigger 100000 Event ... ok (48ms)
+Deleting 100000 Event ... ok (21ms)
+Single Multi Event ...
+------- output -------
+AD
+B1
+C9
+----- output end -----
+Single Multi Event ... ok (784µs)
+Creating EventGroup ... ok (394µs)
+Adding Event to CB_test ... ok (202µs)
+Triggering CD in CB_test ...
+------- output -------
+HELLO!AAA
+----- output end -----
+Triggering CD in CB_test ... ok (85µs)
+Triggering CB_test ...
+------- output -------
+HELLO!AAA
+HELLO!
+----- output end -----
+Triggering CB_test ... ok (156µs)
+Grouping CD to CB_test ... ok (152µs)
+Triggering CB_test Group ...
+------- output -------
+HELLO!AAA
+HELLO!
+111111
+----- output end -----
+Triggering CB_test Group ... ok (198µs)
+
+ok | 14 passed | 0 failed (218ms)
+
+❯ deno test ./public/iPlugins/V2EH_test.js
+running 14 tests from ./public/iPlugins/V2EH_test.js
+Event Creation ... ok (1ms)
+Triggering ... ok (112µs)
+Removing EventID ... ok (210µs)
+Removing EventSlot ... ok (129µs)
+Creating 100000 Event ... ok (147ms)
+Trigger 100000 Event ... ok (49ms)
+Deleting 100000 Event ... ok (20ms)
+Single Multi Event ...
+------- output -------
+AD
+B1
+C9
+----- output end -----
+Single Multi Event ... ok (826µs)
+Creating EventGroup ... ok (452µs)
+Adding Event to CB_test ... ok (326µs)
+Triggering CD in CB_test ...
+------- output -------
+HELLO!AAA
+----- output end -----
+Triggering CD in CB_test ... ok (130µs)
+Triggering CB_test ...
+------- output -------
+HELLO!AAA
+HELLO!
+----- output end -----
+Triggering CB_test ... ok (169µs)
+Grouping CD to CB_test ... ok (173µs)
+Triggering CB_test Group ...
+------- output -------
+HELLO!AAA
+HELLO!
+111111
+----- output end -----
+Triggering CB_test Group ... ok (146µs)
+
+ok | 14 passed | 0 failed (230ms)
+
+❯ deno test ./public/iPlugins/V2EH_test.js
+running 14 tests from ./public/iPlugins/V2EH_test.js
+Event Creation ... ok (1ms)
+Triggering ... ok (106µs)
+Removing EventID ... ok (202µs)
+Removing EventSlot ... ok (111µs)
+Creating 100000 Event ... ok (141ms)
+Trigger 100000 Event ... ok (50ms)
+Deleting 100000 Event ... ok (22ms)
+Single Multi Event ...
+------- output -------
+AD
+B1
+C9
+----- output end -----
+Single Multi Event ... ok (750µs)
+Creating EventGroup ... ok (436µs)
+Adding Event to CB_test ... ok (262µs)
+Triggering CD in CB_test ...
+------- output -------
+HELLO!AAA
+----- output end -----
+Triggering CD in CB_test ... ok (213µs)
+Triggering CB_test ...
+------- output -------
+HELLO!AAA
+HELLO!
+----- output end -----
+Triggering CB_test ... ok (144µs)
+Grouping CD to CB_test ... ok (156µs)
+Triggering CB_test Group ...
+------- output -------
+HELLO!AAA
+HELLO!
+111111
+----- output end -----
+Triggering CB_test Group ... ok (132µs)
+
+ok | 14 passed | 0 failed (226ms)
+
+❯ deno bench ./public/iPlugins/V2EH_test.js
+    CPU | Intel(R) Xeon(R) CPU E3-1220 v3 @ 3.10GHz
+Runtime | Deno 2.9.1 (x86_64-unknown-linux-gnu)
+
+file:///home/ash/Documents/project/web/cols/public/iPlugins/V2EH_test.js
+
+| benchmark          | time/iter (avg) |        iter/s |      (min … max)      |      p75 |      p99 |     p995 |
+| ------------------ | --------------- | ------------- | --------------------- | -------- | -------- | -------- |
+| Creating Event     |          1.1 µs |       897,800 | (749.1 ns …   2.5 µs) |   1.4 µs |   2.5 µs |   2.5 µs |
+| Triggering Event   |        137.7 ns |     7,264,000 | (126.0 ns … 442.5 ns) | 140.8 ns | 178.5 ns | 189.3 ns |
+| Deleting Event     |        132.6 ns |     7,544,000 | (104.1 ns … 637.2 ns) | 122.3 ns | 428.1 ns | 569.7 ns |
+
+❯ deno bench ./public/iPlugins/V2EH_test.js
+    CPU | Intel(R) Xeon(R) CPU E3-1220 v3 @ 3.10GHz
+Runtime | Deno 2.9.1 (x86_64-unknown-linux-gnu)
+
+file:///home/ash/Documents/project/web/cols/public/iPlugins/V2EH_test.js
+
+| benchmark          | time/iter (avg) |        iter/s |      (min … max)      |      p75 |      p99 |     p995 |
+| ------------------ | --------------- | ------------- | --------------------- | -------- | -------- | -------- |
+| Creating Event     |          1.1 µs |       875,900 | (755.4 ns …   2.0 µs) |   1.4 µs |   2.0 µs |   2.0 µs |
+| Triggering Event   |        136.4 ns |     7,332,000 | (122.6 ns … 656.4 ns) | 138.1 ns | 224.3 ns | 264.9 ns |
+| Deleting Event     |        130.5 ns |     7,665,000 | (108.5 ns … 479.9 ns) | 128.0 ns | 368.0 ns | 455.5 ns |
+
+❯ deno bench ./public/iPlugins/V2EH_test.js
+    CPU | Intel(R) Xeon(R) CPU E3-1220 v3 @ 3.10GHz
+Runtime | Deno 2.9.1 (x86_64-unknown-linux-gnu)
+
+file:///home/ash/Documents/project/web/cols/public/iPlugins/V2EH_test.js
+
+| benchmark          | time/iter (avg) |        iter/s |      (min … max)      |      p75 |      p99 |     p995 |
+| ------------------ | --------------- | ------------- | --------------------- | -------- | -------- | -------- |
+| Creating Event     |          1.3 µs |       780,600 | (831.0 ns …   2.4 µs) |   1.7 µs |   2.4 µs |   2.4 µs |
+| Triggering Event   |        139.8 ns |     7,155,000 | (125.8 ns … 732.8 ns) | 141.1 ns | 182.1 ns | 225.4 ns |
+| Deleting Event     |        129.4 ns |     7,726,000 | (107.0 ns … 480.5 ns) | 124.0 ns | 373.7 ns | 424.8 ns |
+
 #### Disclaimer: Deno Bench is kinda unrelated so trust the deno test instead
