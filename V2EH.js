@@ -45,7 +45,7 @@ const eventType = {
         for (const i in K) {
           if (!(i == "$__Metadata__" || i == K.$__Metadata__[0])) {
             console.log(i);
-            console.log(C);
+    
             C.push(i);
             Trigger(1, C);
             C.pop();
