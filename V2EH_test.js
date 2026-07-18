@@ -9,16 +9,6 @@ Deno.test("Event Creation", () => {
 Deno.test("Triggering", () => {
   eh.Trigger(-999, "AAA");
 });
-Deno.test("Multi Event creation(TEMPORARY!!!)", () => {
-  eh.eventID[2] = { A: [] };
-  eh.CreateEvent(1, () => {}, 2, "A");
-
-  expect(eh.eventID).toMatchObject({ 2: { A: [1] } });
-});
-
-Deno.test("trigger MEC", () => {
-  eh.Trigger(0, 2);
-});
 
 Deno.test("Removing EventID", () => {
   eh.RemoveEventID("AAA");
@@ -31,12 +21,6 @@ Deno.test("Removing EventSlot", () => {
   expect(eh.eventData[0]).toBeUndefined();
 });
 
-Deno.test("Removing Multi EventID", () => {
-  eh.RemoveEventID("2", "A");
-
-  expect(eh.eventID["2"]["A"]).toBeUndefined();
-});
-const mul = 1;
 let cout = 0;
 Deno.bench(`Creating Event`, (b) => {
   eh.CreateEvent(
@@ -109,4 +93,52 @@ Deno.test("Single Multi Event", () => {
     "A",
   );
   eh.Trigger(1, "A");
+});
+
+Deno.test("Creating EventGroup", () => {
+  eh.CreateEvent(4, () => {}, "CB_test");
+  expect(eh.eventID["CB_test"]).toMatchObject({ $__Metadata__: ["__self__"], __self__: [3] });
+});
+
+Deno.test("Adding Event to CB_test", () => {
+  eh.CreateEvent(
+    1,
+    () => {
+      console.log("HELLO!AAA");
+    },
+    "CB_test",
+    "CD",
+  );
+  eh.CreateEvent(
+    1,
+    () => {
+      console.log("HELLO!");
+    },
+    "CB_test",
+    "ABB",
+  );
+  expect(eh.eventID["CB_test"]["CD"] instanceof Array).toBe(true);
+});
+
+Deno.test("Triggering CD in CB_test", () => {
+  eh.Trigger(1, "CB_test", "CD");
+});
+
+Deno.test("Triggering CB_test", () => {
+  eh.Trigger(1, "CB_test");
+});
+
+Deno.test("Grouping JD to CB_test", () => {
+  eh.CreateEvent(4, () => {}, "CB_test", "JD");
+
+  eh.CreateEvent(
+    1,
+    () => {
+      console.log("111111");
+    },
+    "CB_test",
+    "JD",
+    "Joe",
+  );
+  eh.Trigger(1, "CB_test", "JD", "Joe");
 });
