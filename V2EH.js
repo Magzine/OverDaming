@@ -41,11 +41,9 @@ const eventType = {
       }
       if (state === 1) {
         const C = [...args];
-        const K = getByPath(eventID, C.toSpliced(C.length - 11, 1))[args[args.length - 1]];
+        const K = getByPath(eventID, C.toSpliced(C.length - 1, 1))[args[args.length - 1]];
         for (const i in K) {
           if (!(i == "$__Metadata__" || i == K.$__Metadata__[0])) {
-            console.log(i);
-    
             C.push(i);
             Trigger(1, C);
             C.pop();
