@@ -703,4 +703,10 @@ file:///home/ash/Documents/project/web/cols/public/iPlugins/V2EH_test.js
 | Triggering Event   |        139.8 ns |     7,155,000 | (125.8 ns … 732.8 ns) | 141.1 ns | 182.1 ns | 225.4 ns |
 | Deleting Event     |        129.4 ns |     7,726,000 | (107.0 ns … 480.5 ns) | 124.0 ns | 373.7 ns | 424.8 ns |
 
+
+####Spec:
+CPU: Intel Xeon E3-1220 v3
+Ram: DDR3 1600mhz Single-Channel zram compressed & swap
+Storage: 256 GB HDD 128 mb/s W/O
+
 #### Disclaimer: Deno Bench is kinda unrelated so trust the deno test instead
