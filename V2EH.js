@@ -41,7 +41,7 @@ const eventType = {
       }
       if (state === 1) {
         const C = [...args];
-        const K = getByPath(eventID, C.toSpliced(C.length - 1, 1))[args[args.length - 1]];
+        const K = getByPath(eventID, C.slice(C.length - 1))[args[args.length - 1]];
         for (const i in K) {
           if (!(i == "$__Metadata__" || i == K.$__Metadata__[0])) {
             C.push(i);
@@ -68,7 +68,7 @@ function RE_Default(EventSlot, ...args) {
 }
 
 function getByPath(arr, path) {
-  if (path == null) return null;
+  if (path == null) return arr;
   if (path.length === 0 || path[0] == null) {
     return arr;
   }
@@ -118,30 +118,44 @@ function CreateEvent(type, fn, ...args) {
   data.state = 0;
   for (let para of args) {
     if (typeof para === "object") {
-      if (para.slot != null) slotid = para.slot;
+      if (para.slot != null) {
+        slotid = para.slot
+    };
     }
   }
   const tmp = Object.create(eventType[type]);
   tmp.fn = fn;
   tmp.state = data.state;
   data.eventID = RegisterEvent(CreateEventSlot(null, slotid, { Event: tmp }), tmp.RE_fn, ...args);
+  tmp.ID = [...args]
   tmp.eventRID = eventID[args[args.length - 1]];
   tmp.eventSlot = eventData[tmp.eventRID];
   Trigger(0, ...args);
   return data;
 }
 
-function RemoveEventSlot(Slot) {
-  if (eventData[Slot] == null) return undefined;
-  eventData[Slot].data.Event.handler(-1);
+function RemoveEventSlot(Slot,cleanupleak = true) {
+  if (eventData[Slot] == null) return undefined
+  const d = eventData[Slot].data.Event;
+  d.handler(-1);
+
+  if (cleanupleak) {
+    const L = getByPath(eventID, d.ID.length <= 1 ? null : d.ID.slice(0, d.ID.length - 1))[d.ID[d.ID.length - 1 ]]
+    if (L != null)
+      L.splice(L.indexOf(Slot),1)
+  }
   eventData[Slot] = undefined;
   delete eventData[Slot];
   freelistslot[freelistslot.length] = Slot;
 }
 
 function RemoveEventID(...EventID) {
-  const obj = getByPath(eventID, EventID.toSpliced(EventID.length - 1, 1));
-  delete obj[EventID[EventID.length - 1]];
+  let obj = getByPath(eventID, EventID.length <= 1 ? null : EventID.slice(0, EventID.length - 1));
+  if ((typeof EventID[EventID.length - 1] == "number") && (obj instanceof Array)) {
+    obj.splice(obj.indexOf(EventID[EventID.length - 1]),1)
+  }
+    else
+    delete obj[EventID[EventID.length - 1]];
 }
 function Trigger(state, ...args) {
   if (args.length == 1 && args[0] instanceof Array) args = args[0];
@@ -155,6 +169,7 @@ function Trigger(state, ...args) {
     let hand = null;
     for (const i of atmp) {
       hand = eventData[i];
+      if (hand == null) continue;
       hand.data.Event.state = state;
       test[i] = hand.data.Event.handler.call(
         { fn: hand.data.Event.fn },
