@@ -105,7 +105,7 @@ Deno.test("Single Multi Event", () => {
 });
 
 Deno.test("Creating EventGroup", () => {
-  eh.CreateEvent(4, () => {}, "CB_test");
+  eh.CreateEvent(4, () => { }, "CB_test");
   expect(eh.eventID["CB_test"]).toMatchObject({ $__Metadata__: ["__self__"], __self__: [3] });
 });
 
@@ -154,3 +154,21 @@ Deno.test("Grouping CD to CB_test", () => {
 Deno.test("Triggering CB_test Group", () => {
   eh.Trigger(1, "CB_test");
 });
+
+Deno.test("Removig a specific Event Triggering From Group", () => {
+  //eh.RemoveEventID("CB_test", 3)
+  eh.CreateEvent(4, () => { }, "CB_test", { slot: 66 });
+  eh.RemoveEventID("CB_test", 3)
+  expect(eh.eventID["CB_test"]["__self__"]).toMatchObject([66])
+})
+
+Deno.test("Removing specific event trigger", () => {
+  eh.CreateEvent(4, () => { }, "CB_test", "JD", { slot: 44 })
+  eh.RemoveEventID("CB_test", "JD", 44)
+  expect(eh.eventID["CB_test"]["JD"]["__self__"]).toMatchObject([6])
+})
+
+Deno.test("Deleting Group", () => {
+  eh.RemoveEventID("CB_test")
+  expect(eh.eventID["CB_test"]).toBeUndefined()
+})
