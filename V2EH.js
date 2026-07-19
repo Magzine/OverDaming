@@ -1,3 +1,5 @@
+import { error } from "node:console";
+
 let eventID = { count: 0 };
 
 let eventData = [];
@@ -34,6 +36,7 @@ const eventType = {
       if (state === 0) {
         let b = [...args];
         b.pop();
+        if (getByPath(eventID, b)[args[args.length - 1]]["$__Metadata__"] == null)
         getByPath(eventID, b)[args[args.length - 1]] = {
           $__Metadata__: ["__self__"],
           __self__: myEventID,
@@ -64,7 +67,12 @@ function RE_Default(EventSlot, ...args) {
   if (TR[args[args.length - 1]] == null) return (TR[args[args.length - 1]] = [EventSlot]);
   else if (TR[args[args.length - 1]] instanceof Array)
     return TR[args[args.length - 1]].push(EventSlot);
-  else if (TR instanceof Object) return (TR[args[args.length - 1]] = [EventSlot]);
+  else if (TR instanceof Object)
+    if (TR[args[args.length - 1]]["$__Metadata__"] != null){
+      TR[args[args.length - 1]][TR[args[args.length - 1]]["$__Metadata__"][0]].push(EventSlot)
+    }
+      else
+      TR[args[args.length - 1]] = [EventSlot]
 }
 
 function getByPath(arr, path) {
@@ -86,9 +94,16 @@ function CreateEventSlot(name, custom_ID, data, ...args) {
     data: data,
   };
   if (ChannelSlotID != null) {
-    if (eventData[ChannelSlotID] != null) return ChannelSlotID;
+    if (eventData[ChannelSlotID] != null) return null;
     eventData[ChannelSlotID] = dataslot;
-    if (ChannelSlotID >= eventDCount) eventDCount = ChannelSlotID + 1;
+    if (ChannelSlotID > eventDCount) {
+      for (let i = eventDCount; i < ChannelSlotID; i++)
+        if (eventSlot[i] == null)
+          freelistslot.push(i);
+      eventDCount = ChannelSlotID + 1
+    } else if (freelistslot.includes(ChannelSlotID))
+      freelistslot.splice(freelistslot.lastIndexOf(ChannelSlotID),1)
+      else if (eventData.includes(ChannelSlotID)) throw error("Already existed")
     return ChannelSlotID;
   } else {
     if (freelistslot[0] != null) {
@@ -120,13 +135,15 @@ function CreateEvent(type, fn, ...args) {
     if (typeof para === "object") {
       if (para.slot != null) {
         slotid = para.slot
+        args.splice(args.lastIndexOf(para))
     };
     }
   }
   const tmp = Object.create(eventType[type]);
   tmp.fn = fn;
   tmp.state = data.state;
-  data.eventID = RegisterEvent(CreateEventSlot(null, slotid, { Event: tmp }), tmp.RE_fn, ...args);
+  data.eventID = RegisterEvent(CreateEventSlot(null, slotid, { Event: tmp }),
+    tmp.RE_fn, ...args);
   tmp.ID = [...args]
   tmp.eventRID = eventID[args[args.length - 1]];
   tmp.eventSlot = eventData[tmp.eventRID];
@@ -153,6 +170,10 @@ function RemoveEventID(...EventID) {
   let obj = getByPath(eventID, EventID.length <= 1 ? null : EventID.slice(0, EventID.length - 1));
   if ((typeof EventID[EventID.length - 1] == "number") && (obj instanceof Array)) {
     obj.splice(obj.indexOf(EventID[EventID.length - 1]),1)
+  }
+  else if (obj["$__Metadata__"] != null) {
+    const t = obj["$__Metadata__"][0]
+    obj[t].splice(obj[t].indexOf(EventID[EventID.length - 1]),1)
   }
     else
     delete obj[EventID[EventID.length - 1]];
