@@ -77,7 +77,6 @@ Deno.test("Deleting 100000 Event", () => {
   }
 });
 
-
 Deno.test("Single Multi Event", () => {
   eh.CreateEvent(
     1,
