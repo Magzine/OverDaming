@@ -1,5 +1,3 @@
-import { error } from "node:console";
-
 let eventID = { count: 0 };
 
 let eventData = [];
@@ -80,6 +78,7 @@ function getByPath(arr, path) {
   if (path.length === 0 || path[0] == null) {
     return arr;
   }
+  else if (arr[path[0]] === undefined)  return undefined
   return getByPath(arr[path[0]], path.slice(1));
 }
 
@@ -98,12 +97,12 @@ function CreateEventSlot(name, custom_ID, data, ...args) {
     eventData[ChannelSlotID] = dataslot;
     if (ChannelSlotID > eventDCount) {
       for (let i = eventDCount; i < ChannelSlotID; i++)
-        if (eventSlot[i] == null)
+        if (eventData[i] == null)
           freelistslot.push(i);
       eventDCount = ChannelSlotID + 1
     } else if (freelistslot.includes(ChannelSlotID))
       freelistslot.splice(freelistslot.lastIndexOf(ChannelSlotID),1)
-      else if (eventData.includes(ChannelSlotID)) throw error("Already existed")
+      else if (eventData[ChannelSlotID]) throw new Error(`Already Existed Slot ID: ${ChannelSlotID}`)
     return ChannelSlotID;
   } else {
     if (freelistslot[0] != null) {
@@ -163,14 +162,13 @@ function RemoveEventSlot(Slot,cleanupleak = true) {
   }
   eventData[Slot] = undefined;
   delete eventData[Slot];
-  freelistslot[freelistslot.length] = Slot;
+  freelistslot.push(Slot);
 }
 
 function RemoveEventID(...EventID) {
   let obj = getByPath(eventID, EventID.length <= 1 ? null : EventID.slice(0, EventID.length - 1));
-  if ((typeof EventID[EventID.length - 1] == "number") && (obj instanceof Array)) {
+  if ((typeof EventID[EventID.length - 1] == "number") && (obj instanceof Array))
     obj.splice(obj.indexOf(EventID[EventID.length - 1]),1)
-  }
   else if (obj["$__Metadata__"] != null) {
     const t = obj["$__Metadata__"][0]
     obj[t].splice(obj[t].indexOf(EventID[EventID.length - 1]),1)
@@ -179,7 +177,23 @@ function RemoveEventID(...EventID) {
     delete obj[EventID[EventID.length - 1]];
 }
 function Trigger(state, ...args) {
+  if (typeof state != "number") throw new Error(`Invaild State: ${state}`)
   if (args.length == 1 && args[0] instanceof Array) args = args[0];
+  function iTriF(TP,rtmp) {
+    let hand = null;
+    for (const i of TP) {
+      hand = eventData[i];
+      if (hand == null) continue
+      hand.data.Event.state = state;
+      test[i] = hand.data.Event.handler.call(
+        { fn: hand.data.Event.fn },
+        hand.data.Event.state,
+        rtmp,
+        eventData[i],
+        ...args,
+      );
+    }
+  }
   const LocalEventID = [...args][args.length - 1];
   const tmp = [...args];
   tmp.pop();
@@ -187,34 +201,11 @@ function Trigger(state, ...args) {
   if (tmp == null) return undefined;
   const test = [];
   if (atmp instanceof Array) {
-    let hand = null;
-    for (const i of atmp) {
-      hand = eventData[i];
-      if (hand == null) continue;
-      hand.data.Event.state = state;
-      test[i] = hand.data.Event.handler.call(
-        { fn: hand.data.Event.fn },
-        hand.data.Event.state,
-        atmp,
-        eventData[i],
-        ...args,
-      );
-    }
+    iTriF(atmp,atmp)
   } else if (atmp instanceof Object) {
-    let hand = null;
     if (atmp.$__Metadata__ == null) return undefined;
-    const K = atmp.$__Metadata__[0];
-    for (const i of atmp[K]) {
-      hand = eventData[i];
-      hand.data.Event.state = state;
-      test[i] = hand.data.Event.handler.call(
-        { fn: hand.data.Event.fn },
-        hand.data.Event.state,
-        atmp,
-        eventData[i],
-        ...args,
-      );
-    }
+    const K = atmp[atmp.$__Metadata__[0]];
+    iTriF(K,atmp)
   }
   return test;
 }
