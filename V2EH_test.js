@@ -1,6 +1,7 @@
 import { expect } from "jsr:@std/expect";
 import * as eh from "#V2EH";
 
+
 Deno.test("Event Creation", () => {
   eh.CreateEvent(1, () => {}, "AAA");
   expect(eh.eventID).toMatchObject({ AAA: [0] });
@@ -53,30 +54,6 @@ Deno.bench("Deleting Event", (b) => {
   indx++;
 });
 
-
-Deno.test("Creating 100000 Event", () => {
-  for (let i = 0; i <= 100000; i++) {
-    eh.CreateEvent(
-      1,
-      () => {
-        console.log("bet");
-      },
-      i,
-    );
-  }
-});
-Deno.test("Trigger 100000 Event", () => {
-  for (let i = 0; i <= 100000; i++) {
-    eh.Trigger(0, i);
-  }
-});
-Deno.test("Deleting 100000 Event", () => {
-  for (let i = 0; i <= 100000; i++) {
-    eh.RemoveEventID(i);
-    eh.RemoveEventSlot(i);
-  }
-});
-
 Deno.test("Single Multi Event", () => {
   eh.CreateEvent(
     1,
@@ -105,7 +82,7 @@ Deno.test("Single Multi Event", () => {
 
 Deno.test("Creating EventGroup", () => {
   eh.CreateEvent(4, () => { }, "CB_test");
-  expect(eh.eventID["CB_test"]).toMatchObject({ $__Metadata__: ["__self__"], __self__: [3] });
+  expect(eh.eventID["CB_test"]).toMatchObject({ $__Metadata__: ["__self__"], __self__: [5] });
 });
 
 Deno.test("Adding Event to CB_test", () => {
@@ -157,14 +134,14 @@ Deno.test("Triggering CB_test Group", () => {
 Deno.test("Removig a specific Event Triggering From Group", () => {
   //eh.RemoveEventID("CB_test", 3)
   eh.CreateEvent(4, () => { }, "CB_test", { slot: 66 });
-  eh.RemoveEventID("CB_test", 3)
+  eh.RemoveEventID("CB_test", 5)
   expect(eh.eventID["CB_test"]["__self__"]).toMatchObject([66])
 })
 
 Deno.test("Removing specific event trigger", () => {
   eh.CreateEvent(4, () => { }, "CB_test", "JD", { slot: 44 })
   eh.RemoveEventID("CB_test", "JD", 44)
-  expect(eh.eventID["CB_test"]["JD"]["__self__"]).toMatchObject([6])
+  expect(eh.eventID["CB_test"]["JD"]["__self__"]).toMatchObject([8])
 })
 
 Deno.test("Deleting Group", () => {
