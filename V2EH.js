@@ -93,13 +93,13 @@ function CreateEventSlot(name, custom_ID, data, ...args) {
     data: data,
   };
   if (ChannelSlotID != null) {
-    if (eventData[ChannelSlotID] != null) return null;
     eventData[ChannelSlotID] = dataslot;
     if (ChannelSlotID > eventDCount) {
       for (let i = eventDCount; i < ChannelSlotID; i++)
         if (eventData[i] == null)
           freelistslot.push(i);
       eventDCount = ChannelSlotID + 1
+      return ChannelSlotID;
     } else if (freelistslot.includes(ChannelSlotID))
       freelistslot.splice(freelistslot.lastIndexOf(ChannelSlotID),1)
       else if (eventData[ChannelSlotID]) throw new Error(`Already Existed Slot ID: ${ChannelSlotID}`)
@@ -119,6 +119,7 @@ function CreateEventSlot(name, custom_ID, data, ...args) {
 
 function CreateEvent(type, fn, ...args) {
   let slotid = null;
+  let nameEvent = []
   const data = {};
   data.emun = {};
   data.emun.type = {
@@ -131,22 +132,26 @@ function CreateEvent(type, fn, ...args) {
   data.flag = 0b00000000;
   data.state = 0;
   for (let para of args) {
-    if (typeof para === "object") {
-      if (para.slot != null) {
-        slotid = para.slot
-        args.splice(args.lastIndexOf(para))
-    };
+    if (para instanceof Array) {
+      nameEvent = para
     }
+    else if ((typeof para == "string") || (typeof para == "number")) nameEvent.push(para)
+    else if (para instanceof Object) {
+        if (para.slot != null) {
+          slotid = para.slot
+          args.splice(args.lastIndexOf(para))
+        };
+      }
   }
   const tmp = Object.create(eventType[type]);
   tmp.fn = fn;
   tmp.state = data.state;
   data.eventID = RegisterEvent(CreateEventSlot(null, slotid, { Event: tmp }),
-    tmp.RE_fn, ...args);
-  tmp.ID = [...args]
-  tmp.eventRID = eventID[args[args.length - 1]];
+    tmp.RE_fn, ...nameEvent);
+  tmp.ID = [...nameEvent]
+  tmp.eventRID = eventID[nameEvent[nameEvent.length - 1]];
   tmp.eventSlot = eventData[tmp.eventRID];
-  Trigger(0, ...args);
+  Trigger(0, ...nameEvent);
   return data;
 }
 
@@ -195,10 +200,10 @@ function Trigger(state, ...args) {
     }
   }
   const LocalEventID = [...args][args.length - 1];
-  const tmp = [...args];
+  let tmp = [...args];
   tmp.pop();
+  if (tmp == null) tmp = [];
   const atmp = getByPath(eventID, tmp)[LocalEventID];
-  if (tmp == null) return undefined;
   const test = [];
   if (atmp instanceof Array) {
     iTriF(atmp,atmp)
